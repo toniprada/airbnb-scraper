@@ -1,0 +1,3 @@
+[submodule "airbnbpy"]
+	path = airbnbpy
+	url = git@github.com:toniprada/airbnbpy.git
