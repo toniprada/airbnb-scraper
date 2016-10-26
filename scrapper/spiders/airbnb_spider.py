@@ -16,7 +16,8 @@ class AirbnbSpider(scrapy.Spider):
         self.start_urls = [self.airbnb.user(user_id)['url'] for user_id in self.user_ids_to_download()]
 
     def user_ids_to_download(self):
-        return ['1']
+        with open('input/airbnb-ids.csv', 'rU') as f:
+            return [row[0] for row in csv.reader(f, delimiter=',')]
 
     def parse(self, response):
         user = json.loads(response.body)['user']
