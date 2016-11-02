@@ -1,6 +1,6 @@
-# airbnb-scrapper
+# airbnb-scraper
 
-An Airbnb scrapper built using Scrapy
+An Airbnb scraper built using Scrapy
 
 ## How to
 

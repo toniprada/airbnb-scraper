@@ -2,8 +2,8 @@ import scrapy
 import json
 import time
 import csv
-from scrapper.items import UserItem
-from scrapper import settings
+from scraper.items import UserItem
+from scraper import settings
 from airbnbpy.request_builder import AirbnbRequestBuilder
 
 class AirbnbSpider(scrapy.Spider):
