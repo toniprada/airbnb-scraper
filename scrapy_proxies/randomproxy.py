@@ -76,11 +76,4 @@ class RandomProxy(object):
         if 'proxy' not in request.meta:
             return
 
-        proxy = request.meta['proxy']
-        try:
-            del self.proxies[proxy]
-        except KeyError:
-            pass
-
-        log.info('Removing failed proxy <%s>, %d proxies left' % (
-                    proxy, len(self.proxies)))
+        log.info('Failed proxy <%s>' % proxy)
