@@ -17,7 +17,7 @@ class AirbnbSpider(scrapy.Spider):
         self.start_urls = [self.airbnb.user(user_id)['url'] for user_id in self.user_ids_to_download()]
 
     def user_ids_to_download(self):
-        return [random.randint(1, 111000000) for i in range(100000)]
+        return [random.randint(1, 111000000) for i in range(250000)]
 
     def parse(self, response):
         user = json.loads(response.body)['user']
