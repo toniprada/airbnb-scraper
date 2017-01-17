@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import os
-import scrapy_proxies
 
 AIRBNB_CLIENT_ID = os.getenv('AIRBNB_CLIENT_ID', '')
 #LOG_LEVEL='INFO'
@@ -106,6 +105,6 @@ PROXY_LIST = 'input/proxies.txt'
 
 DOWNLOADER_MIDDLEWARES = {
     'scrapy.downloadermiddlewares.retry.RetryMiddleware': 90,
-    'scrapy_proxies.RandomProxy': 100,
+    'scrapy-proxies.RandomProxy': 100,
     'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 110,
 }

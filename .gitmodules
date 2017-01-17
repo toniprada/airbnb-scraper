@@ -1,3 +1,6 @@
 [submodule "airbnbpy"]
 	path = airbnbpy
 	url = git@github.com:toniprada/airbnbpy.git
+[submodule "scrapy-proxies"]
+	path = scrapy-proxies
+	url = git@github.com:toniprada/scrapy-proxies.git
