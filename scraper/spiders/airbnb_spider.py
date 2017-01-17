@@ -2,6 +2,7 @@ import scrapy
 import json
 import time
 import csv
+import re
 from scraper.items import UserItem
 from scraper import settings
 from airbnbpy.request_builder import AirbnbRequestBuilder
@@ -14,18 +15,22 @@ class AirbnbSpider(scrapy.Spider):
         super(AirbnbSpider, self).__init__(*args, **kwargs)
         self.airbnb = AirbnbRequestBuilder(settings.AIRBNB_CLIENT_ID)
         self.start_urls = [self.airbnb.user(user_id)['url'] for user_id in self.user_ids_to_download()]
+        self.location_pattern = re.compile('australia', re.IGNORECASE)
 
     def user_ids_to_download(self):
-        return ['1']
+        ids = range(112000000)
+        print 'Starting with', len(ids), 'ids' 
+        return ids
 
     def parse(self, response):
         user = json.loads(response.body)['user']
-        # got data
-        url = self.airbnb.user_owned_listings(user['id'])['url']
-        request = scrapy.Request(url, callback=self.parse_listings)
-        request.meta['user_id'] = user['id']
-        request.meta['user']    = user
-        yield request
+        if user['location'] != None and self.location_pattern.search(user['location']) != None:
+          # got data
+          url = self.airbnb.user_owned_listings(user['id'])['url']
+          request = scrapy.Request(url, callback=self.parse_listings)
+          request.meta['user_id'] = user['id']
+          request.meta['user']    = user
+          yield request
 
     def parse_listings(self, response):
         user_id  = response.meta['user_id']
