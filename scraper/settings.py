@@ -2,7 +2,8 @@
 import os
 
 AIRBNB_CLIENT_ID = os.getenv('AIRBNB_CLIENT_ID', '')
-#LOG_LEVEL='INFO'
+LOG_LEVEL='DEBUG'
+
 # Scrapy settings for wallapop project
 #
 # For simplicity, this file contains only settings considered important or
@@ -94,7 +95,7 @@ AUTOTHROTTLE_ENABLED=False
 # Retry many times since proxies often fail
 RETRY_TIMES = 10
 # Retry on most error codes since proxies fail for different reasons
-RETRY_HTTP_CODES = [500, 503, 504, 400, 403, 404, 408]
+RETRY_HTTP_CODES = [500, 503, 504, 400, 403, 408]
 
 # Proxy list containing entries like
 # http://host1:port
