@@ -2,7 +2,7 @@
 import os
 
 AIRBNB_CLIENT_ID = os.getenv('AIRBNB_CLIENT_ID', '')
-LOG_LEVE L ='INFO'
+LOG_LEVEL ='INFO'
 
 # Scrapy settings for wallapop project
 #
