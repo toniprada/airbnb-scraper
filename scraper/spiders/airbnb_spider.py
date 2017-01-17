@@ -14,13 +14,14 @@ class AirbnbSpider(scrapy.Spider):
     def __init__(self, *args, **kwargs):
         super(AirbnbSpider, self).__init__(*args, **kwargs)
         self.airbnb = AirbnbRequestBuilder(settings.AIRBNB_CLIENT_ID)
-        self.start_urls = [self.airbnb.user(user_id)['url'] for user_id in self.user_ids_to_download()]
         self.location_pattern = re.compile('australia', re.IGNORECASE)
 
-    def user_ids_to_download(self):
-        ids = range(112000000)
-        print 'Starting with', len(ids), 'ids' 
-        return ids
+    def start_requests(self):
+        user_id = 1
+        while user_id < 112000000:
+            url = self.airbnb.user(user_id)['url']
+            yield self.make_requests_from_url(url)
+            user_id += 1
 
     def parse(self, response):
         user = json.loads(response.body)['user']
