@@ -17,7 +17,7 @@ class AirbnbSpider(scrapy.Spider):
         self.location_pattern = re.compile('australia', re.IGNORECASE)
 
     def start_requests(self):
-        user_id = 1
+        user_id = 392837
         while user_id < 112000000:
             url = self.airbnb.user(user_id)['url']
             yield self.make_requests_from_url(url)

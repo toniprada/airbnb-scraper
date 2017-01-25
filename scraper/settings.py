@@ -2,7 +2,7 @@
 import os
 
 AIRBNB_CLIENT_ID = os.getenv('AIRBNB_CLIENT_ID', '')
-LOG_LEVEL = 'INFO'
+LOG_LEVEL = 'DEBUG'
 
 # Scrapy settings for wallapop project
 #
@@ -18,14 +18,14 @@ BOT_NAME = 'scraper'
 SPIDER_MODULES = ['scraper.spiders']
 NEWSPIDER_MODULE = 'scraper.spiders'
 
-DOWNLOAD_HANDLERS = {'s3': None,}
+DOWNLOAD_HANDLERS = {'s3': None}
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = 'okhttp/2.3.0"'
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-# CONCURRENT_REQUESTS=100
-# CONCURRENT_REQUESTS_PER_DOMAIN=100
+CONCURRENT_REQUESTS=110
+CONCURRENT_REQUESTS_PER_DOMAIN=110
 
 # Configure a delay for requests for the same website (default: 0)
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
@@ -93,7 +93,7 @@ AUTOTHROTTLE_ENABLED=False
 
 
 # Retry many times since proxies often fail
-RETRY_TIMES = 10
+RETRY_TIMES = 3
 # Retry on most error codes since proxies fail for different reasons
 RETRY_HTTP_CODES = [500, 503, 504, 400, 403, 408]
 
