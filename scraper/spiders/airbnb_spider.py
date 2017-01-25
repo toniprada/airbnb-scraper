@@ -15,15 +15,18 @@ class AirbnbSpider(scrapy.Spider):
         super(AirbnbSpider, self).__init__(*args, **kwargs)
         self.airbnb = AirbnbRequestBuilder(settings.AIRBNB_CLIENT_ID)
         self.location_pattern = re.compile('australia', re.IGNORECASE)
-
-    def start_requests(self):
-        user_id = 392837
-        while user_id < 112000000:
-            url = self.airbnb.user(user_id)['url']
-            yield self.make_requests_from_url(url)
-            user_id += 1
+        self.start_urls = [self.airbnb.listings('australia', page)['url'] for page in range(1)]
 
     def parse(self, response):
+        o = json.loads(response.body)
+        listings = o['explore_tabs'][0]['sections'][0]['listings']
+        for listing in listings:
+          user_id = listing['listing']['user']['id']
+          url = self.airbnb.user(user_id)['url']
+          request = scrapy.Request(url, callback=self.parse_user)
+          yield request
+
+    def parse_user(self, response):
         user = json.loads(response.body)['user']
         if user['location'] != None and self.location_pattern.search(user['location']) != None:
           # got data
@@ -87,6 +90,11 @@ class AirbnbSpider(scrapy.Spider):
         listings = response.meta['listings']
         offset   = response.meta['offset'] if ('offset' in response.meta) else 0
         reviews  = json.loads(response.body)['reviews']
+        for review in reviews:
+            reviewer_user_id = review['author']['id']
+            url = self.airbnb.user(reviewer_user_id)['url']
+            request = scrapy.Request(url, callback=self.parse_user)
+            yield request
         # got saved data
         if (len(reviews) > 49): # limited, paginate to get more
             if 'reviews' in response.meta: reviews =  response.meta['reviews'] + reviews
@@ -99,7 +107,7 @@ class AirbnbSpider(scrapy.Spider):
             request.meta['offset']   = offset
             request.meta['reviews']  = reviews
             yield request
-        else:
+        else: # save item
             if 'reviews' in response.meta: reviews =  response.meta['reviews'] + reviews
             item = UserItem()
             item['created_at'] = time.time()
